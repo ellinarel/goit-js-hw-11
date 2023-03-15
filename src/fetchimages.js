@@ -4,7 +4,7 @@ const KEY = `34446168-3b6c7bd8508fcf4c0afecb303`
 
 export async function fetchImages(searchValue) {
   return await axios
-      .get("${BASE_URL}?key=${KEY}&q=${searchValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40")
+      .get(`${BASE_URL}?key=${KEY}&q=${searchValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40`)
     .then((response) => {
       console.log(response.data);
     })
