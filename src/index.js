@@ -8,7 +8,6 @@ import './styles.css';
 const refs = {
   formEl: document.querySelector('.search-form'),
   sentinel: document.querySelector('#sentinel'),
-  loadMoreBtn: document.querySelector('.load-more'),
   photoContainer: document.querySelector('.gallery')
 }
 
@@ -16,40 +15,49 @@ const lightbox = new SimpleLightbox('.gallery a');
 const newApi = new MyApiServise();
 let totalHits = 0;
 
-const onEntry = entries => {
-  entries.forEach(entrie => {
-    if (entrie.isIntersecting && newApi.query !== '') {
-      arrfetchImages();
-    }
-  });
-};
+
+function onEntry(entries) {
+  setTimeout(() => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !newApi.isLoading) {
+        newApi.isLoading = true;
+        newApi.fetchImages()
+          .then(response => {
+            const fetchedImages = response.data.hits;
+            totalHits = response.data.totalHits;
+            newApi.incrementPage();
+            if (fetchedImages.length !== 0) {
+              appendArticlesMarkup(fetchedImages);
+              newApi.isLoading = false;
+            } else {
+              Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+              observer.unobserve(sentinel);
+            }
+          })
+          .catch(error => {
+            console.log(error.name);
+          });
+      }
+    })
+  }),500}
 const options = {
   rootMargin: '150px',
 };
 const observer = new IntersectionObserver(onEntry, options);
-function arrfetchImages() {
-  setTimeout(() => {
-    const totalPages = Math.ceil(newApi.totalHits / newApi.perPage);
 
-    if (newApi.page > totalPages) {
-      Notiflix.Notify.failure(
-        "We're sorry, but you've reached the end of search results."
-      );
-      observer.unobserve(refs.sentinel);
-      return;
-    }
-  }, 500);
-}
 
 refs.formEl.addEventListener('submit', onSubmit)
-//refs.loadMoreBtn.addEventListener('click', onLoadMore)
+refs.loadMoreBtn.addEventListener('click', onLoadMore)
 function onSubmit(e) {
   e.preventDefault();
+ 
+  observer.unobserve(refs.sentinel);
   newApi.query = refs.formEl.elements.searchQuery.value.trim();
   if (newApi.query === ``) {
     Notiflix.Notify.failure('please enter search request');
     return;
   }
+  observer.observe(refs.sentinel);
   newApi.resetPage();
   clealMarkup()
 
@@ -60,7 +68,8 @@ newApi.fetchImages()
     newApi.incrementPage()
   
     if (fetchedImages.length !== 0) {
-           Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`)
+      Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`)
+      
     }
     if (fetchedImages.length  === 0) {
       Notiflix.Notify.failure('Sorry, but there are no such photos, change the request')
@@ -79,6 +88,13 @@ function appendArticlesMarkup(images) {
   const markup = renderArticles(images)
   refs.photoContainer.insertAdjacentHTML("beforeend", markup)
   lightbox.refresh();
+  const { height: cardHeight } = document
+    .querySelector(".gallery")
+    .firstElementChild.getBoundingClientRect();
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",
+  });
 }
 function clealMarkup() {
   refs.photoContainer.innerHTML = '';
