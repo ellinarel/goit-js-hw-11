@@ -3,7 +3,7 @@ import renderArticles from './articles';
 import Notiflix from 'notiflix';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import SimpleLightbox from 'simplelightbox';
-import './sass/index.scss';
+import './styles.css';
 
 const refs = {
   formEl: document.querySelector('.search-form'),
