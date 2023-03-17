@@ -92,7 +92,7 @@ function appendArticlesMarkup(images) {
     .querySelector(".gallery")
     .firstElementChild.getBoundingClientRect();
   window.scrollBy({
-    top: cardHeight * 2,
+    top: cardHeight * 0.3,
     behavior: "smooth",
   });
 }

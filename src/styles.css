@@ -32,6 +32,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    
 }
 
 .gallery li {
@@ -40,7 +41,14 @@
     align-items: center;
     overflow: hidden;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); 
+    
+
+}
+.gallery li:hover {
+box-shadow: 0 14px 28px rgba(24,
+    78,
+    214, 0.5), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .gallery img {
@@ -50,18 +58,14 @@
 }
 
 /* Стили для кнопки "Загрузить еще" */
-.load-more {
-    display: block;
-    margin: 20px auto;
-    padding: 10px;
-    font-size: 1.2rem;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+
 
 .load-more.hidden {
     display: none;
+}
+.gallery-link {
+    text-decoration: none;
+    text-align: center;
+    color: navy;
+    
 }
