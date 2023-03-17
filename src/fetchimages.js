@@ -9,15 +9,12 @@ export default class MyApiServise {
     this.searchQuery = '';
   }
   async fetchImages() {
-    try {
+  
       const response =
       await axios.get(`${BASE_URL}?key=${KEY}&q=${this.searchQuery}&${OPTIONS}&page=${this.page}&per_page=${this.perPage}`)
       return response
-    }
-    catch(e) {
-      console.log(error.name);
-    };
   }
+
   incrementPage() {
     this.page += 1;
   }

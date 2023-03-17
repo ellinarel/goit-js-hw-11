@@ -1,36 +1,27 @@
 export default function renderArticles(images) {
-    return images.map(({
+  return images.map(({
         webformatURL,
         largeImageURL,
         tags,
         likes,
         views,
         comments,
-        downloads,
-    }) => {
+        downloads }) => {
         return `
         <li>
-        <a class="galerry_image" href=${largeImageURL}>
-        <div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-      <b>${likes}</b>
-    </p>
-    <p class="info-item">
-      <b>${views}</b>
-    </p>
-    <p class="info-item">
-      <b>${comments}</b>
-    </p>
-    <p class="info-item">
-      <b>"${downloads}"</b>
-    </p>
-  </div>
-</div>
-</a>
-        </li>
-    `}
+          <a class="gallery-link" href="${largeImageURL}">
+            <div class="photo">
+                <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+              <div class="thumb">
+                <p class="thumb__likes"><b>Likes</b>${likes}</p>
+                <p class="thumb__views"><b>Views</b>${views}</p>
+                <p class="thumb__comments"><b>Comments</b>${comments}</p>
+                <p class="thumb__downloads"><b>Downloads</b>${downloads}</p>
+              </div>
+            </div>
+          </a>
+        </li>`;
+      }
     )
     .join('');
 }
