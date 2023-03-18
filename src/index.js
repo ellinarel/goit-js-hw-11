@@ -69,20 +69,16 @@ newApi.fetchImages()
   
     if (fetchedImages.length !== 0) {
       Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`)
-      
     }
     if (fetchedImages.length  === 0) {
       Notiflix.Notify.failure('Sorry, but there are no such photos, change the request')
-      return 
-    }
+      return}
     return fetchedImages
-    
   })
   .then((images) => { appendArticlesMarkup(images) })
    .catch((e) => {
       console.log(error.name);
     });
-
  }
 function appendArticlesMarkup(images) {
   const markup = renderArticles(images)
